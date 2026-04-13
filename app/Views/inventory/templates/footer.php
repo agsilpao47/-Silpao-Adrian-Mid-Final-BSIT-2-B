@@ -2,7 +2,7 @@
     
     <footer class="footer">
         <div class="footer-content">
-            <p>&copy; = date('Y') ?> Inventory System - Built with CodeIgniter 4</p>
+            <p>&copy; <?= date('Y') ?> Inventory System - Built with CodeIgniter 4</p>
         </div>
     </footer>
     
