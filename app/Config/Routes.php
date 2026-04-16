@@ -5,8 +5,13 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-// Default route - Inventory Dashboard
-$routes->get('/', 'Inventory::index');
+// Default route - Login page
+$routes->get('/', 'Auth::login');
+
+// Authentication Routes
+$routes->get('login', 'Auth::login');
+$routes->post('login', 'Auth::login');
+$routes->get('logout', 'Auth::logout');
 
 // Inventory Routes
 $routes->get('inventory', 'Inventory::index');

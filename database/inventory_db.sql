@@ -28,11 +28,27 @@ CREATE TABLE IF NOT EXISTS categories (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Users Table (for login)
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    full_name VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
 -- Insert Sample Categories
 INSERT INTO categories (category_name, description) VALUES 
 ('Electronics', 'Electronic devices and gadgets'),
 ('Office Supplies', 'Office and stationery items'),
 ('Furniture', 'Office and home furniture');
+
+-- Insert Default Login User
+-- Username: admin
+-- Password: admin123
+INSERT INTO users (username, full_name, password) VALUES
+('admin', 'System Administrator', SHA2('admin123', 256));
 
 -- Insert Sample Products
 INSERT INTO products (product_code, product_name, category, description, quantity, unit, buying_price, selling_price, supplier) VALUES 

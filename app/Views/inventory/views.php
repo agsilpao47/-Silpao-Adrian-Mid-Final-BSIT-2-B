@@ -2,7 +2,7 @@
 
 <div class="page-header">
     <h1>Product Details</h1>
-    <a href="<?= site_url('/') ?>" class="btn btn-secondary">← Back to List</a>
+    <a href="<?= site_url('inventory') ?>" class="btn btn-secondary">← Back to List</a>
 </div>
 
 <div class="product-detail-card">

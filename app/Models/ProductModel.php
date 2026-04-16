@@ -28,6 +28,7 @@ class ProductModel extends Model
 
     // Validation rules
     protected $validationRules = [
+        'id' => 'permit_empty|is_natural_no_zero',
         'product_code' => 'required|is_unique[products.product_code,id,{id}]',
         'product_name' => 'required|min_length[3]',
         'quantity' => 'required|numeric|greater_than_equal_to[0]',

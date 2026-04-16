@@ -13,8 +13,11 @@
             <h2>📦 Inventory System</h2>
         </div>
         <ul class="nav-menu">
-            <li><a href="<?= site_url('/') ?>">Dashboard</a></li>
+            <li><a href="<?= site_url('inventory') ?>">Dashboard</a></li>
             <li><a href="<?= site_url('inventory/add') ?>">Add Product</a></li>
+            <?php if (session()->get('isLoggedIn')): ?>
+                <li><a href="<?= site_url('logout') ?>">Logout (<?= esc(session()->get('username')) ?>)</a></li>
+            <?php endif; ?>
         </ul>
     </nav>
     

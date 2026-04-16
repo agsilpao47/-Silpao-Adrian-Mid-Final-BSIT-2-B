@@ -4,9 +4,8 @@ namespace App\Controllers;
 
 use App\Models\ProductModel;
 use App\Models\CategoryModel;
-use CodeIgniter\Controller;
 
-class Inventory extends Controller
+class Inventory extends BaseController
 {
     protected $productModel;
     protected $categoryModel;
@@ -18,11 +17,24 @@ class Inventory extends Controller
         helper(['form', 'url']);
     }
 
+    private function requireLogin()
+    {
+        if (!session()->get('isLoggedIn')) {
+            return redirect()->to('/login')->with('error', 'Please log in first.');
+        }
+
+        return null;
+    }
+
     /**
      * Display all products (Dashboard)
      */
     public function index()
     {
+        if ($redirect = $this->requireLogin()) {
+            return $redirect;
+        }
+
         $data = [
             'title' => 'Dashboard',
             'products' => $this->productModel->getAllProducts(),
@@ -38,6 +50,10 @@ class Inventory extends Controller
      */
     public function add()
     {
+        if ($redirect = $this->requireLogin()) {
+            return $redirect;
+        }
+
         $data = [
             'title' => 'Add New Product',
             'categories' => $this->categoryModel->getAllCategories()
@@ -61,6 +77,10 @@ class Inventory extends Controller
      */
     public function edit($id = null)
     {
+        if ($redirect = $this->requireLogin()) {
+            return $redirect;
+        }
+
         $product = $this->productModel->find($id);
 
         if (!$product) {
@@ -75,6 +95,7 @@ class Inventory extends Controller
 
         if ($this->request->getMethod() === 'POST') {
             $postData = $this->request->getPost();
+            $postData['id'] = $id;
             
             if ($this->productModel->update($id, $postData)) {
                 return redirect()->to('/inventory')->with('success', 'Product updated successfully!');
@@ -91,6 +112,10 @@ class Inventory extends Controller
      */
     public function view($id = null)
     {
+        if ($redirect = $this->requireLogin()) {
+            return $redirect;
+        }
+
         $product = $this->productModel->find($id);
 
         if (!$product) {
@@ -116,6 +141,10 @@ class Inventory extends Controller
      */
     public function delete($id = null)
     {
+        if ($redirect = $this->requireLogin()) {
+            return $redirect;
+        }
+
         $product = $this->productModel->find($id);
 
         if (!$product) {
@@ -131,6 +160,10 @@ class Inventory extends Controller
      */
     public function search()
     {
+        if ($redirect = $this->requireLogin()) {
+            return $redirect;
+        }
+
         $keyword = $this->request->getGet('keyword');
 
         $data = [

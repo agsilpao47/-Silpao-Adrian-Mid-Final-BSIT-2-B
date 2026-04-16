@@ -2,7 +2,7 @@
 
 <div class="page-header">
     <h1><?= $title ?></h1>
-    <a href="<?= site_url('/') ?>" class="btn btn-secondary">← Back to List</a>
+    <a href="<?= site_url('inventory') ?>" class="btn btn-secondary">← Back to List</a>
 </div>
 
 <div class="form-container">
@@ -79,7 +79,7 @@
 
         <div class="form-actions">
             <button type="submit" class="btn btn-warning">🔄 Update Product</button>
-            <a href="<?= site_url('/') ?>" class="btn btn-secondary">Cancel</a>
+            <a href="<?= site_url('inventory') ?>" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </div>
