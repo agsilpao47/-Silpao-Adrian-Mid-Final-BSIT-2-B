@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= esc($title) ?> - Inventory System</title>
+    <title><?= esc($title ?? 'Login') ?> - Inventory System</title>
     <link rel="stylesheet" href="<?= base_url('assets/css/style.css') ?>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -13,8 +13,14 @@
             <h1>Inventory System Login</h1>
             <p class="login-subtitle">Please sign in to continue.</p>
 
-            <?= session()->getFlashdata('success') ? '<div class="alert alert-success">' . session()->getFlashdata('success') . '</div>' : '' ?>
-            <?= session()->getFlashdata('error') ? '<div class="alert alert-error">' . session()->getFlashdata('error') . '</div>' : '' ?>
+            <?php $successMessage = session()->getFlashdata('success'); ?>
+            <?php if ($successMessage): ?>
+                <div class="alert alert-success"><?= esc($successMessage) ?></div>
+            <?php endif; ?>
+            <?php $errorMessage = session()->getFlashdata('error'); ?>
+            <?php if ($errorMessage): ?>
+                <div class="alert alert-error"><?= esc($errorMessage) ?></div>
+            <?php endif; ?>
 
             <form action="<?= site_url('login') ?>" method="post">
                 <?= csrf_field() ?>

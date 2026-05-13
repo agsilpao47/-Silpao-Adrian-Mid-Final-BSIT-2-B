@@ -15,6 +15,7 @@ class ProductModel extends Model
         'product_code',
         'product_name',
         'category',
+        'cylinder_weight',
         'description',
         'quantity',
         'unit',
@@ -30,10 +31,15 @@ class ProductModel extends Model
     protected $validationRules = [
         'id' => 'permit_empty|is_natural_no_zero',
         'product_code' => 'required|is_unique[products.product_code,id,{id}]',
-        'product_name' => 'required|min_length[3]',
+        'product_name' => 'required|min_length[3]|max_length[150]',
+        'category' => 'permit_empty|max_length[100]',
+        'cylinder_weight' => 'permit_empty|in_list[2.7kg,5kg,7kg,11kg,22kg,50kg]',
+        'description' => 'permit_empty|max_length[500]',
         'quantity' => 'required|numeric|greater_than_equal_to[0]',
-        'buying_price' => 'required|numeric|greater_than_equal_to[0]',
-        'selling_price' => 'required|numeric|greater_than_equal_to[0]'
+        'unit' => 'permit_empty|in_list[pcs,box,ream,kg,ltr,crates]',
+        'buying_price' => 'permit_empty|numeric|greater_than_equal_to[0]',
+        'selling_price' => 'permit_empty|numeric|greater_than_equal_to[0]',
+        'supplier' => 'permit_empty|max_length[150]'
     ];
 
     protected $validationMessages = [
@@ -43,6 +49,9 @@ class ProductModel extends Model
         ],
         'product_name' => [
             'required' => 'Product name is required'
+        ],
+        'selling_price' => [
+            'greater_than_equal_to' => 'Selling price cannot be negative.'
         ]
     ];
 

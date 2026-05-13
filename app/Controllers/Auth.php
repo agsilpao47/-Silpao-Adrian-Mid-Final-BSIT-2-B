@@ -10,35 +10,41 @@ class Auth extends BaseController
 
     public function __construct()
     {
-        helper(['form', 'url']);
+        helper(['form', 'url', 'currency']);
         $this->userModel = new UserModel();
     }
 
     public function login()
     {
         if (session()->get('isLoggedIn')) {
-            return redirect()->to('/inventory');
+            if (!session()->get('storeType')) {
+                return redirect()->to('/store/select');
+            }
+            return redirect()->to('/stock/inventory');
         }
 
         $data = [
             'title' => 'Login'
         ];
 
-        if ($this->request->getMethod() === 'POST') {
+        if (strtolower($this->request->getMethod()) === 'post') {
             $username = trim((string) $this->request->getPost('username'));
             $password = (string) $this->request->getPost('password');
 
             $user = $this->userModel->where('username', $username)->first();
 
             if ($user && hash('sha256', $password) === $user->password) {
+                session()->regenerate();
                 session()->set([
                     'userId' => $user->id,
                     'username' => $user->username,
                     'fullName' => $user->full_name,
-                    'isLoggedIn' => true
+                    'isLoggedIn' => true,
+                    'currency' => 'php'
                 ]);
 
-                return redirect()->to('/inventory')->with('success', 'Welcome back, ' . $user->full_name . '!');
+                session()->remove('storeType');
+                return redirect()->to('/store/select')->with('success', 'Welcome back, ' . $user->full_name . '!');
             }
 
             return redirect()->back()->withInput()->with('error', 'Invalid username or password.');

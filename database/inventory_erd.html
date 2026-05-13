@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory System ERD</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            padding: 8px;
+            font-size: 16px;
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #ccc;
+            flex-shrink: 0;
+        }
+        
+        #diagram-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: auto;
+            background-color: white;
+            width: 100%;
+        }
+        
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .export-buttons {
+            text-align: center;
+            padding: 8px;
+            background-color: #f0f0f0;
+            border-top: 1px solid #ccc;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 15px;
+            margin: 3px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Inventory System - Entity Relationship Diagram</h1>
+        
+        <div id="diagram-container">
+            <div class="mermaid">
+erDiagram
+    PRODUCTS ||--o{ SALE_ITEMS : contains
+    PRODUCTS ||--o{ FIXED_PRICES : has
+    SALES ||--o{ SALE_ITEMS : includes
+    USERS ||--o{ SALES : creates
+    CUSTOMERS ||--o{ PRODUCTS : purchases
+    CATEGORIES ||--o{ PRODUCTS : classifies
+
+    PRODUCTS {
+        int id PK
+        string product_code UK
+        string product_name
+        string category
+        string cylinder_weight
+        text description
+        int quantity
+        string unit
+        decimal buying_price
+        decimal selling_price
+        string supplier
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    CATEGORIES {
+        int id PK
+        string category_name
+        text description
+        timestamp created_at
+    }
+
+    USERS {
+        int id PK
+        string username UK
+        string full_name
+        string password
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    SALES {
+        int id PK
+        string invoice_no UK
+        datetime sale_date
+        string customer_name
+        string notes
+        decimal total_amount
+        int created_by FK
+        timestamp created_at
+    }
+
+    SALE_ITEMS {
+        int id PK
+        int sale_id FK
+        int product_id FK
+        string product_name
+        string cylinder_weight
+        int quantity
+        decimal unit_price
+        decimal subtotal
+    }
+
+    FIXED_PRICES {
+        int id PK
+        int product_id FK
+        decimal buying_price
+        decimal selling_price
+        timestamp updated_at
+    }
+
+    CUSTOMERS {
+        int id PK
+        string customer_name
+        string product_bought
+        string product_category
+        int quantity
+        decimal price
+        datetime purchase_date
+        text notes
+        timestamp created_at
+        timestamp updated_at
+    }
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'default', 
+            securityLevel: 'loose',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            }
+        });
+        mermaid.contentLoaded();
+    </script>
+</body>
+</html>

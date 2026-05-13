@@ -10,11 +10,30 @@
 <body>
     <nav class="navbar">
         <div class="nav-brand">
-            <h2>📦 Inventory System</h2>
+            <div class="profile-placeholder" aria-hidden="true"></div>
+            <div class="brand-text">
+                <h2>Inventory System</h2>
+                <p class="nav-subtitle">Stock and Sales Management</p>
+            </div>
         </div>
         <ul class="nav-menu">
-            <li><a href="<?= site_url('inventory') ?>">Dashboard</a></li>
-            <li><a href="<?= site_url('inventory/add') ?>">Add Product</a></li>
+            <li><a href="<?= site_url('dashboard') ?>">Dashboard</a></li>
+            <li><a href="<?= site_url('stock/inventory') ?>">Stock/Inventory</a></li>
+            <li><a href="<?= site_url('stock/fixed-prices') ?>">Fixed Prices</a></li>
+            <li><a href="<?= site_url('stock/inventory/add') ?>">Add Product</a></li>
+            <li><a href="<?= site_url('sales') ?>">Sales</a></li>
+            <li><a href="<?= site_url('customer') ?>">Customer Records</a></li>
+            <?php if (session()->get('isLoggedIn')): ?>
+                <li>
+                    <form action="<?= site_url('store/currency') ?>" method="post" class="inline-form currency-form">
+                        <?= csrf_field() ?>
+                        <select name="currency" id="currency_selector" onchange="this.form.submit()">
+                            <option value="php" <?= get_currency_code() === 'php' ? 'selected' : '' ?>>Peso (PHP)</option>
+                            <option value="usd" <?= get_currency_code() === 'usd' ? 'selected' : '' ?>>Dollar (USD)</option>
+                        </select>
+                    </form>
+                </li>
+            <?php endif; ?>
             <?php if (session()->get('isLoggedIn')): ?>
                 <li><a href="<?= site_url('logout') ?>">Logout (<?= esc(session()->get('username')) ?>)</a></li>
             <?php endif; ?>
@@ -22,5 +41,11 @@
     </nav>
     
     <div class="container">
-        <?= session()->getFlashdata('success') ? '<div class="alert alert-success">' . session()->getFlashdata('success') . '</div>' : '' ?>
-        <?= session()->getFlashdata('error') ? '<div class="alert alert-error">' . session()->getFlashdata('error') . '</div>' : '' ?>
+        <?php $successMessage = session()->getFlashdata('success'); ?>
+        <?php if ($successMessage): ?>
+            <div class="alert alert-success"><?= esc($successMessage) ?></div>
+        <?php endif; ?>
+        <?php $errorMessage = session()->getFlashdata('error'); ?>
+        <?php if ($errorMessage): ?>
+            <div class="alert alert-error"><?= esc($errorMessage) ?></div>
+        <?php endif; ?>
